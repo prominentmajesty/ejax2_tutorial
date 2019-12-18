@@ -35,9 +35,45 @@ $('#create-form').on('submit', function(event){
         success : function(response){
             console.log(response);
             $('#create_input').val('');
+            $('#get-button').click();
         },
         failure : function(err){
             console.log(err);
         }
+    });
+});
+ $('table').on('click', '.update-button',function(){
+    var rowEl = $(this).closest('tr');
+    var id = rowEl.find('id').text();
+    var newName = rowEl.find('.name').val();
+    $.ajax({
+        url :'/products/' + id,
+        method : 'POST',
+        contentType : 'application/json',
+        data : JSON.stringify({newname : newName}),
+        success : function(response){
+             console.log(response);
+        },
+    failure : function(err){
+        console.log(err)
+    }
+    });
+ });
+ //DELETE
+$('table').on('click','delete-button', function(){
+    var getTableRowElemet = $(this).closest('tr');
+    var id = getTableRowElemet.find('.id').text();
+    $.ajax({
+        url : '/delete/' + id,
+        method : 'DELETE',
+        contentType : 'application/json',
+        success : function(){
+            console.log('Successfully Deleted From Product');
+        },
+
+        error : function(err){
+            console.log(err);
+        }
+
     });
 });
